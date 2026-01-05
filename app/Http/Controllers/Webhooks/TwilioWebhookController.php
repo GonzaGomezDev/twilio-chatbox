@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Conversation;
 use App\Models\User;
 use App\Services\TwilioService;
+use App\Services\CampaignService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Storage;
 
 class TwilioWebhookController extends Controller
 {
-    public function messageWebhook(Request $request)
+    public function messageWebhook(Request $request, CampaignService $campaignService)
     {
         $validated = $request->validate([
             'From' => 'required|string',
@@ -78,6 +79,9 @@ class TwilioWebhookController extends Controller
 
         // Broadcast the message received event
         event(new MessageReceived($conversation, $message));
+
+        // Mark campaign contact as replied if we have one for this number
+        $campaignService->recordReplyForNumber($from);
 
         $keywords = ['appointment', 'schedule', 'book', 'meeting', 'calendly'];
 

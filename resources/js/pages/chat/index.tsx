@@ -5,6 +5,7 @@ import { Head } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import echo from '@/lib/echo';
 import Message from './message';
+import { useToast } from '@/contexts/toast-context';
 
 interface Conversation {
     id: number;
@@ -30,9 +31,74 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function ChatPage({ conversations: initialConversations }: Props) {
-    const [conversations, setConversations] = useState(initialConversations);
-    const [selected, setSelected] = useState<Conversation | null>(null);
-    const [messages, setMessages] = useState<Message[]>([]);
+    const { success, error: showError } = useToast();
+    const usingMockData = initialConversations.length === 0;
+    const mockNames = [
+        'Olivia Johnson', 'Liam Smith', 'Ava Williams', 'Noah Brown', 'Sophia Jones',
+        'Ethan Garcia', 'Isabella Miller', 'Mason Davis', 'Mia Rodriguez', 'Logan Martinez',
+        'Amelia Hernandez', 'Lucas Lopez', 'Harper Gonzalez', 'Elijah Wilson', 'Evelyn Anderson',
+        'James Thomas', 'Abigail Taylor', 'Benjamin Moore', 'Emily Jackson', 'Alexander Martin',
+    ];
+    const mockConversations: Conversation[] = Array.from({ length: 20 }).map((_, idx) => ({
+        id: idx + 1,
+        name: mockNames[idx],
+        phone_number: `+1 (555) ${String(200 + idx).padStart(3, '0')}-${String(1000 + idx).slice(-4)}`,
+    }));
+
+    const mockMessages: Record<number, Message[]> = {
+        1: [
+            {
+                id: 1,
+                content: 'Hi, I saw you offer Twilio and automation services. I am interested in sending bulk SMS for my business.',
+                is_outgoing: false,
+                created_at: '2025-08-07T17:25:32Z',
+            },
+            {
+                id: 2,
+                content: 'Hi! Absolutely. We can help with bulk SMS, automated flows, and full CRM integrations. What kind of volume are you expecting?',
+                is_outgoing: true,
+                created_at: '2025-08-07T17:29:24Z',
+            },
+            {
+                id: 3,
+                content: 'Around 5k to 10k texts per month.',
+                is_outgoing: false,
+                created_at: '2025-08-07T17:29:45Z',
+            },
+            {
+                id: 4,
+                content: 'Perfect. With that volume we can optimize deliverability and keep costs low. Do you already have your numbers set up?',
+                is_outgoing: true,
+                created_at: '2025-08-07T17:31:13Z',
+            },
+            {
+                id: 5,
+                content: 'I do not have anything configured yet.',
+                is_outgoing: false,
+                created_at: '2025-08-07T17:31:13Z',
+            },
+            {
+                id: 6,
+                content: 'No problem. We can guide you through the entire process. If you want, I can prepare a proposal with pricing and a kickoff plan.',
+                is_outgoing: true,
+                created_at: '2025-08-07T17:31:13Z',
+            },
+        ],
+        2: [
+            { id: 7, content: 'Is there a discount for teams?', is_outgoing: false, created_at: new Date().toISOString() },
+            { id: 8, content: 'Yes—tiered pricing starts at 5 seats. Want me to email the grid?', is_outgoing: true, created_at: new Date().toISOString() },
+        ],
+        3: [
+            { id: 9, content: 'Can it integrate with Slack?', is_outgoing: false, created_at: new Date().toISOString() },
+            { id: 10, content: 'It can! I can enable your workspace if you share the org slug.', is_outgoing: true, created_at: new Date().toISOString() },
+        ],
+    };
+
+    const defaultSelected = usingMockData ? mockConversations[0] : null;
+
+    const [conversations, setConversations] = useState(usingMockData ? mockConversations : initialConversations);
+    const [selected, setSelected] = useState<Conversation | null>(defaultSelected);
+    const [messages, setMessages] = useState<Message[]>(usingMockData && defaultSelected ? (mockMessages[defaultSelected.id] ?? []) : []);
     const [content, setContent] = useState('');
     const [attachment, setAttachment] = useState<File | null>(null);
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -40,7 +106,7 @@ export default function ChatPage({ conversations: initialConversations }: Props)
 
     // Listen for incoming messages when a conversation is clicked
     useEffect(() => {
-        if (!selected) return;
+        if (!selected || usingMockData) return;
 
         const channelName = `conversations.${selected.id}`;
         const channel = echo.private(channelName);
@@ -66,22 +132,63 @@ export default function ChatPage({ conversations: initialConversations }: Props)
 
     const loadMessages = (conversation: Conversation) => {
         setSelected(conversation);
+        if (usingMockData) {
+            setMessages(mockMessages[conversation.id] ?? [
+                { id: Date.now(), content: 'This is a new mock thread. Say hi!', is_outgoing: false, created_at: new Date().toISOString() },
+            ]);
+            return;
+        }
+
         api.get(`/api/conversations/${conversation.id}`).then((r) => {
             setMessages(r.data.conversation.messages || []);
         });
     };
 
     const createConversation = () => {
+        if (usingMockData) {
+            const fallbackName = mockNames[conversations.length % mockNames.length] || `Contact ${conversations.length + 1}`;
+            const newConv: Conversation = {
+                id: conversations.length + 1,
+                phone_number: phoneNumber || `+1555${Math.floor(Math.random() * 900000 + 100000)}`,
+                name: name || fallbackName,
+            };
+            setConversations((c) => [...c, newConv]);
+            setPhoneNumber('');
+            setName('');
+            success('Conversation created (mock)', `New conversation created with ${newConv.name ?? newConv.phone_number}`);
+            return;
+        }
+
         api.post('/api/conversations', { phone_number: phoneNumber, name })
             .then((r) => {
                 setConversations((c) => [...c, r.data]);
                 setPhoneNumber('');
                 setName('');
+                success('Conversation created', `New conversation created with ${name || phoneNumber}`);
+            })
+            .catch((error) => {
+                showError('Failed to create conversation', error.response?.data?.error || 'An error occurred');
             });
     };
 
     const sendMessage = () => {
         if (!selected) return;
+
+        if (usingMockData) {
+            const nextId = messages.length ? messages[messages.length - 1].id + 1 : 1;
+            const newMessage: Message = {
+                id: nextId,
+                content,
+                is_outgoing: true,
+                created_at: new Date().toISOString(),
+            };
+            setMessages((m) => [...m, newMessage]);
+            setContent('');
+            setAttachment(null);
+            success('Message sent (mock)', 'Your message has been added to this mock conversation.');
+            return;
+        }
+
         const form = new FormData();
         form.append('content', content);
         if (attachment) {
@@ -93,6 +200,10 @@ export default function ChatPage({ conversations: initialConversations }: Props)
                 setMessages((m) => [...m, r.data.message]);
                 setContent('');
                 setAttachment(null);
+                success('Message sent', 'Your message has been sent successfully');
+            })
+            .catch((error) => {
+                showError('Failed to send message', error.response?.data?.error || 'An error occurred while sending the message');
             });
     };
 
@@ -154,7 +265,7 @@ export default function ChatPage({ conversations: initialConversations }: Props)
                             <div className="flex justify-between items-baseline">
                                 <input
                                     type="file"
-                                    className="border rounded-md p-2 bg-secondary"
+                                    className="border rounded-md p-2"
                                     onChange={(e) =>
                                         setAttachment(e.target.files ? e.target.files[0] : null)
                                     }

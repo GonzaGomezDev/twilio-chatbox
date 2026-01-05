@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, MessageCircle } from 'lucide-react';
+import { Lock, Mail, MessageCircle, Users } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -12,6 +12,21 @@ const mainNavItems: NavItem[] = [
         title: 'Chat',
         href: '/chat',
         icon: MessageCircle,
+    },
+    {
+        title: 'Contacts',
+        href: '/contacts',
+        icon: Users,
+    },
+    {
+        title: 'Campaigns',
+        href: '/campaigns',
+        icon: Mail,
+    },
+    {
+        title: 'API keys',
+        href: '/api-keys',
+        icon: Lock,
     },
 ];
 

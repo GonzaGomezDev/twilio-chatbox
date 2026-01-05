@@ -15,7 +15,7 @@ class ChatController extends Controller
             ->get(['id', 'name', 'phone_number']);
 
         return Inertia::render('chat/index', [
-            'conversations' => $conversations,
+            'conversations' => [],
         ]);
     }
 }
