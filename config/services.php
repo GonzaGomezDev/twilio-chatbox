@@ -35,4 +35,16 @@ return [
         ],
     ],
 
+    'twilio' => [
+        'sid' => env('TWILIO_SID'),
+        'token' => env('TWILIO_TOKEN'),
+        'sms' => [
+            'from' => env('TWILIO_SMS_FROM'),
+            'to' => env('TWILIO_SMS_TO'),
+        ],
+    ],
+
+    'calendly' => [
+        'link' => env('CALENDLY_LINK'),
+    ],
 ];

@@ -9,6 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
+import { useState } from 'react';
 
 type LoginForm = {
     email: string;
@@ -27,6 +28,8 @@ export default function Login({ status, canResetPassword }: LoginProps) {
         password: '',
         remember: false,
     });
+    const [twilioPhone, setTwilioPhone] = useState('');
+    const [twilioCode, setTwilioCode] = useState('');
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -95,14 +98,26 @@ export default function Login({ status, canResetPassword }: LoginProps) {
                         Log in
                     </Button>
                 </div>
-
-                <div className="text-center text-sm text-muted-foreground">
-                    Don't have an account?{' '}
-                    <TextLink href={route('register')} tabIndex={5}>
-                        Sign up
-                    </TextLink>
-                </div>
             </form>
+
+            <div className="mt-8 space-y-4">
+                <div className="flex items-center gap-4">
+                    <div className="h-px flex-1 bg-border" />
+                    <span className="text-xs uppercase tracking-wide text-muted-foreground">or continue with</span>
+                    <div className="h-px flex-1 bg-border" />
+                </div>
+                <div className="grid gap-3 sm:grid-cols-3">
+                    <Button type="button" variant="outline" className="w-full">
+                        Continue with Google
+                    </Button>
+                    <Button type="button" variant="outline" className="w-full">
+                        Continue with Microsoft
+                    </Button>
+                    <Button type="button" variant="outline" className="w-full">
+                        Continue with GitHub
+                    </Button>
+                </div>
+            </div>
 
             {status && <div className="mb-4 text-center text-sm font-medium text-green-600">{status}</div>}
         </AuthLayout>
