@@ -1,4 +1,4 @@
-# 💬 Chatbox POC - Twilio & AI Communication Platform
+# Chatbox POC - Twilio & AI Communication Platform
 
 A modern, full-stack communication platform showcasing enterprise-grade Twilio integration and AI-powered messaging capabilities. Built with Laravel 12, React 19, and Inertia.js for seamless real-time communication workflows.
 
@@ -8,21 +8,21 @@ A modern, full-stack communication platform showcasing enterprise-grade Twilio i
 [![Twilio](https://img.shields.io/badge/Twilio-SDK-F22F46?style=flat&logo=twilio)](https://www.twilio.com)
 [![Inertia.js](https://img.shields.io/badge/Inertia.js-2.0-9553E9?style=flat)](https://inertiajs.com)
 
-## 🎯 Project Highlights
+## Project Highlights
 
 This proof-of-concept demonstrates expertise in building scalable communication systems that combine:
 
-### 🚀 Core Features
+### Core Features
 
-- **🔌 Twilio SDK Integration** - Enterprise-ready messaging infrastructure with SMS/MMS capabilities
-- **📊 Contact Management System** - Bulk CSV import with intelligent column mapping and data validation
-- **🎨 Modern UI/UX** - Responsive design system using shadcn/ui components and Tailwind CSS 4.0
-- **⚡ Real-time Processing** - Queue-based background job handling for scalability
-- **🔐 Complete Authentication** - Email verification, password reset, and secure session management
-- **🌓 Dark Mode Support** - Polished theming system with system preference detection
-- **📱 Progressive Enhancement** - Server-side rendering (SSR) with Inertia.js for optimal performance
+- **Twilio SDK Integration** - Enterprise-ready messaging infrastructure with SMS/MMS capabilities
+- **Contact Management System** - Bulk CSV import with intelligent column mapping and data validation
+- **Modern UI/UX** - Responsive design system using shadcn/ui components and Tailwind CSS 4.0
+- **Real-time Processing** - Queue-based background job handling for scalability
+- **Complete Authentication** - Email verification, password reset, and secure session management
+- **Dark Mode Support** - Polished theming system with system preference detection
+- **Progressive Enhancement** - Server-side rendering (SSR) with Inertia.js for optimal performance
 
-### 🛠️ Technical Stack
+### Technical Stack
 
 **Backend:**
 - Laravel 12 with PHP 8.2+
@@ -43,7 +43,7 @@ This proof-of-concept demonstrates expertise in building scalable communication 
 - Laravel Pint for PHP styling
 - Concurrently for multi-process development
 
-### 💡 Key Implementation Highlights
+### Key Implementation Highlights
 
 #### Contact Management
 ```tsx
@@ -69,7 +69,7 @@ This proof-of-concept demonstrates expertise in building scalable communication 
 - RESTful API design patterns
 ```
 
-## 📦 Installation
+## Installation
 
 ### Prerequisites
 
@@ -130,7 +130,7 @@ This runs:
 - Laravel Pail (logs)
 - Inertia.js SSR server
 
-## 🔧 Configuration
+## Configuration
 
 ### Twilio Setup
 
@@ -161,7 +161,7 @@ DB_PASSWORD=
 QUEUE_CONNECTION=database
 ```
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run PHP tests
@@ -178,7 +178,7 @@ npm run lint
 npm run format:check
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 ├── app/
@@ -199,7 +199,7 @@ npm run format:check
 └── tests/                   # PHPUnit/Pest tests
 ```
 
-## 🎨 UI Components
+## UI Components
 
 This project uses a custom implementation of **shadcn/ui** components including:
 
@@ -209,12 +209,12 @@ This project uses a custom implementation of **shadcn/ui** components including:
 - And more...
 
 All components are:
-- ✅ Fully accessible (ARIA compliant)
-- ✅ TypeScript typed
-- ✅ Dark mode compatible
-- ✅ Customizable via Tailwind
+- Fully accessible (ARIA compliant)
+- TypeScript typed
+- Dark mode compatible
+- Customizable via Tailwind
 
-## 🚀 Deployment
+## Deployment
 
 ### Production Build
 
@@ -241,7 +241,7 @@ APP_DEBUG=false
 APP_URL=https://yourdomain.com
 ```
 
-## 🤝 Use Cases
+## Use Cases
 
 This architecture is ideal for:
 
@@ -251,7 +251,7 @@ This architecture is ideal for:
 - **CRM Platforms** - Contact database with communication history
 - **AI Chatbots** - Integration-ready for AI/LLM message processing
 
-## 🛡️ Security Features
+## Security Features
 
 - CSRF protection on all forms
 - SQL injection prevention via Eloquent ORM
@@ -260,14 +260,14 @@ This architecture is ideal for:
 - Email verification system
 - Rate limiting on authentication endpoints
 
-## 📝 Code Quality
+## Code Quality
 
 - **Type Safety**: Full TypeScript coverage on frontend
 - **Testing**: Comprehensive test suite with Pest
 - **Linting**: ESLint + Prettier for consistent code style
 - **Standards**: PSR-12 PHP coding standards via Laravel Pint
 
-## 🔗 Key Technologies
+## Key Technologies
 
 - [Laravel 12](https://laravel.com) - PHP framework
 - [React 19](https://react.dev) - UI library
@@ -278,14 +278,14 @@ This architecture is ideal for:
 - [TypeScript](https://www.typescriptlang.org/) - Type safety
 - [Radix UI](https://www.radix-ui.com/) - Headless components
 
-## 📞 About the Developer
+## About the Developer
 
 Built by a **Twilio & AI consultant** specializing in:
-- 📱 Communication platform integration (SMS, Voice, Video)
-- 🤖 AI/LLM integration for intelligent messaging
-- ⚡ Real-time systems and WebSocket communication
-- 🏗️ Scalable full-stack architecture
-- 🎯 Modern TypeScript/React development
+- Communication platform integration (SMS, Voice, Video)
+- AI/LLM integration for intelligent messaging
+- Real-time systems and WebSocket communication
+- Scalable full-stack architecture
+- Modern TypeScript/React development
 
 ### Consulting Services
 
@@ -298,11 +298,11 @@ Available for:
 
 ---
 
-## 📄 License
+## License
 
 This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Laravel team for the excellent framework
 - Twilio for robust communication APIs
@@ -311,6 +311,6 @@ This project is open-sourced software licensed under the [MIT license](https://o
 
 ---
 
-**⭐ If you find this project valuable, please consider starring it on GitHub!**
+**If you find this project valuable, please consider starring it on GitHub!**
 
-*Need a Twilio or AI integration expert? Let's connect!*
+*Need a Twilio or AI integration expert? [Let's connect!](https://ggomez.dev/#contact)*
